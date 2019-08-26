@@ -20,18 +20,21 @@ const muxThumbnail = (playbackId, options = {}) =>
     options
   )}`;
 
-if (Hls.isSupported()) {
-  const videos = document.querySelectorAll("video[data-playback-id]");
-  videos.forEach(video => {
-    const playbackId = video.getAttribute("data-playback-id");
-    const posterTime = video.getAttribute("data-poster-time");
-    video.setAttribute(
-      "poster",
-      video.poster || muxThumbnail(playbackId, { time: posterTime })
-    );
+const videos = document.querySelectorAll("video[data-playback-id]");
+videos.forEach(video => {
+  const playbackId = video.getAttribute("data-playback-id");
+  const posterTime = video.getAttribute("data-poster-time");
+  video.setAttribute(
+    "poster",
+    video.poster || muxThumbnail(playbackId, { time: posterTime })
+  );
+  const manifest = muxManifestUrl(playbackId);
 
+  if (Hls.isSupported()) {
     var hls = new Hls();
-    hls.loadSource(muxManifestUrl(playbackId));
+    hls.loadSource(manifest);
     hls.attachMedia(video);
-  });
-}
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = muxManifestUrl(playbackId);
+  }
+});
