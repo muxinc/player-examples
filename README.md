@@ -1,6 +1,6 @@
 # Player Examples
 
-A repo for creating public examples of player.
+A repo for creating public examples of players.
 
 ## Development
 
