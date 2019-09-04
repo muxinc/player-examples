@@ -23,7 +23,6 @@ if (!Hls.isSupported()) {
   resultsContainer.innerHTML =
     '<div class="error">HLS.js is not supported in this browser</div>';
   runButton.disabled = true;
-  return;
 }
 
 const runSingleTest = (playbackId, callback) => {
