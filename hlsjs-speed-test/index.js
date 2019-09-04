@@ -11,7 +11,7 @@ let muxPlaybackIds = [
   '71x3ig00j01bqt3vPhXh2Dw5oXeYsg019HS',
   'FgxIu2KcZ4pH3vBchjPJeu74wWxeCZx01',
   'RawKiv202jbboINlaJQBXxiV6iWP02QySb',
-  'kCcsEZeBJStH3ETyIEKR1CdpJrauCn00f',
+  'F00fwc991xeqOabpOLO02GYFOf8MLsAy8T',
   'izCpm4ir01IJ23rWefm02Qt01nDhOR02KSPP',
   'mmnaSWku1b01jkNp02fJglbEnlUPXQhqjB',
   'zQXsKpiD027acvpeBHVoRErzBJaxxaJW02',
@@ -26,14 +26,14 @@ if (!Hls.isSupported()) {
 }
 
 const runSingleTest = (playbackId, callback) => {
-  let selectedLevel = document.querySelector('#levelSelect').value;
-  if (selectedLevel == 'default') {
-    selectedLevel = undefined;
+  let startLevel = document.querySelector('#startLevelSelect').value;
+  if (startLevel == 'default') {
+    startLevel = undefined;
   } else {
-    selectedLevel = Number(selectedLevel);
+    startLevel = Number(startLevel);
   }
 
-  console.log(selectedLevel);
+  let maxLevel = document.querySelector('#maxLevelSelect').value;
 
   const startTime = performance.now();
   const video = document.createElement('video');
@@ -61,9 +61,15 @@ const runSingleTest = (playbackId, callback) => {
 
   var hls = new Hls({
     debug: true,
-    startLevel: selectedLevel,
+    startLevel: startLevel,
     // maxBufferLength: 2,
   });
+  console.log('maxLevel', maxLevel);
+
+  if (maxLevel > -1) {
+    hls.autoLevelCapping = maxLevel;
+  }
+
   hls.loadSource(`https://stream.mux.com/${playbackId}.m3u8?${Math.random()}`);
   hls.attachMedia(video);
   hls.on(Hls.Events.MANIFEST_PARSED, function() {
