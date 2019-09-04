@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>HLS Speed Test</title>
+    <!-- <link rel="stylesheet" href="./index.css" /> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script> -->
+  </head>
+  <body>
+    <div id="controlsContainer">
+      <label for="levelSelect">Starting Level</label>
+      <select name="levelSelect" id="levelSelect">
+        <option value="default">Default</option>
+        <option value="-1">Auto</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <br />
+      <button id="runButton">Run Test</button>
+    </div>
+    <div id="videoContainer"></div>
+    <div id="resultsContainer"></div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
