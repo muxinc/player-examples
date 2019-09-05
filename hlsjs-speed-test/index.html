@@ -6,8 +6,8 @@
   </head>
   <body>
     <div id="controlsContainer">
-      <label for="levelSelect">Starting Level</label>
-      <select name="levelSelect" id="levelSelect">
+      <label for="startLevelSelect">Starting Level</label>
+      <select name="startLevelSelect" id="startLevelSelect">
         <option value="default">Default</option>
         <option value="-1">Auto</option>
         <option value="0">0</option>
@@ -15,9 +15,35 @@
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
-        <option value="5">5</option>
       </select>
-      <br />
+      <p>
+        Which quality level should the player start with? 0 = lowest, 4 =
+        highest. The <code>default</code> behavior is to start with the first
+        quality rendition listed in the HLS manifest. Turning on
+        <code>auto</code> means the player will download the first segment of
+        the lowest quality rendition and use that to test bandwidth. This
+        however can slow down startup time because if it decides a higher
+        quality is better, it will throw away the downloaded segment and start
+        over at the first segment of the new quality.
+      </p>
+      <label for="maxLevelSelect">Max Level</label>
+      <select name="maxLevelSelect" id="maxLevelSelect">
+        <option value="-1">None</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <p>
+        What is the max quality level that should be used? 0 = lowset, 4 =
+        highest. I believe this is similar to
+        <a
+          href="https://developer.apple.com/documentation/avfoundation/avplayeritem/1388541-preferredpeakbitrate"
+          >preferredPeakBitRate</a
+        >
+        on iOS.
+      </p>
       <button id="runButton">Run Test</button>
     </div>
     <div id="videoContainer"></div>
