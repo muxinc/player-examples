@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "now-build": "parcel build index.html videojs/index.html",
+    "start": "parcel index.html ./**/*.html"
+  },
+  "dependencies": {
+    "hls.js": "^0.13.1",
+    "parcel": "^1.12.4",
+    "video.js": "^7.6.6"
+  }
+}

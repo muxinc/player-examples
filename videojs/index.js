@@ -1,28 +1,22 @@
 import videojs from 'video.js';
 import 'video.js/src/css/video-js.scss';
+
+import { queryToAttrs } from '../common/utils';
 import '../common/style.scss';
 
-const container = document.getElementById('app');
-const params = new URLSearchParams(window.location.search.substring(1));
-const playbackId = params.get('playback_id');
+const qs = new URLSearchParams(window.location.search.substring(1));
+const playbackId = qs.get('playback_id');
+const params = queryToAttrs(qs);
 
-if (!playbackId) {
-  container.innerHTML = `<div class="error"><h2>Mux Playback ID is required</h2></div>`;
-} else {
-  container.innerHTML = `
-    <div class="player-container">
-      <video id="player" class="video-js vjs-fluid"></video>
-    </div>
-  `;
+if (params['mux-playback-id']) {
+  params.sources = [{
+    src: `https://stream.mux.com/${params['mux-playback-id']}.m3u8`,
+    type: 'application/x-mpegurl',
+  }];
 
-  videojs('player', {
-    autoplay: true,
-    controls: true,
-    sources: [
-      {
-        src: `https://stream.mux.com/${playbackId}.m3u8`,
-        type: 'application/x-mpegurl',
-      },
-    ],
-  });
+  params.poster = params.poster || `https://image.mux.com/${params['mux-playback-id']}/thumbnail.jpeg`;
 }
+
+console.log(params);
+
+videojs('player', params);
