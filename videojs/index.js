@@ -1,11 +1,11 @@
 import videojs from 'video.js';
-import 'video.js/src/css/video-js.scss';
+import 'video.js/dist/video-js.css';
+import '../common/examples.css';
 
 import { queryToAttrs } from '../common/utils';
 import '../common/style.scss';
 
 const qs = new URLSearchParams(window.location.search.substring(1));
-const playbackId = qs.get('playback_id');
 const params = queryToAttrs(qs);
 
 if (params['mux-playback-id']) {

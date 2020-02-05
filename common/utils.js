@@ -1,19 +1,29 @@
+function parseParam(param) {
+  switch(param) {
+    case 'true':
+    case '':
+      return true;
+
+    case 'false':
+      return false;
+
+    default:
+      return param;
+  }
+}
+
 export function queryToAttrs(querystring) {
   const params = new URLSearchParams(querystring);
 
   const attrs = {};
 
   for (const [key, value] of params) {
-    value = value === '' ? true : value;
+    value = parseParam(value);
     attrs[key] = value;
   }
 
   if (attrs['mux-playback-id']) {
     attrs.src = `https://stream.mux.com/${attrs['mux-playback-id']}.m3u8`;
-    attrs.sources = [{
-      src: `https://stream.mux.com/${attrs['mux-playback-id']}.m3u8`,
-      type: 'application/x-mpegurl',
-    }];
     attrs.poster = `https://image.mux.com/${attrs['mux-playback-id']}/thumbnail.jpeg`;
   }
 
@@ -21,7 +31,8 @@ export function queryToAttrs(querystring) {
     attrs.poster = `https://image.mux.com/${attrs['mux-playback-id']}/thumbnail.jpeg?time=${attrs['mux-poster-time']}`;
   }
 
-  if (attrs.autoplay) {
+  // Force people to explicitly shoot themselves in the foot around autoplay and muted.
+  if (attrs.autoplay && typeof attrs.muted === 'undefined') {
     attrs.muted = true;
   }
 

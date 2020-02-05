@@ -15,9 +15,17 @@
 
   <body>
     <div class="container">
-      <h2>player.video</h2>
+      <h1>player.video</h1>
 
-      <video-player controls mux-playback-id="tPjHxg1gesJEvZcBYQ8s26yRRQjOcCjJ" mux-poster-time="10" />
+      <video-player controls src="/test-assets/sample2.mp4"></video-player>
+
+      <h2>Cool</h2>
+
+      <video-player controls mux-playback-id="tPjHxg1gesJEvZcBYQ8s26yRRQjOcCjJ" mux-poster-time="10"></video-player>
+
+      <h2>Hls.js</h2>
+
+      <video-player controls player="hlsjs" mux-playback-id="tPjHxg1gesJEvZcBYQ8s26yRRQjOcCjJ"></video-player>
     </div>
 
     <script src="embed.js"></script>

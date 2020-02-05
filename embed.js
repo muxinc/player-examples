@@ -28,8 +28,6 @@ class MuxPlayer extends HTMLElement {
     const wrapper = document.createElement('div');
     const iframe = document.createElement('iframe');
 
-    console.log(this.attributes);
-
     const queryParams = attrsToQuery(this.attributes);
 
     iframe.setAttribute(
