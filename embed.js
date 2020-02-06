@@ -1,22 +1,38 @@
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://player.video' : 'http://localhost:1234';
 
-const styles = `
-.wrapper {
-  position: relative;
-  padding-top: 56.26%;
-}
+const getTemplate = (player, queryParams) => {
+  const template = document.createElement('template');
 
-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
+  template.innerHTML = `
+    <style>
+    .wrapper {
+      position: relative;
+      padding-top: 56.26%;
+    }
 
-  border: none;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-`;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      border: none;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+    </style>
+
+    <div class="wrapper">
+      <iframe
+        src="${BASE_URL}/${player}/embed.html?${queryParams}"
+        allowfullscreen
+        frameborder="0"
+      ></iframe>
+    </div>
+  `;
+
+  return template;
+};
 
 import { attrsToQuery } from './common/utils';
 
@@ -25,25 +41,12 @@ class MuxPlayer extends HTMLElement {
     super();
 
     const shadow = this.attachShadow({ mode: 'open' });
-    const wrapper = document.createElement('div');
-    const iframe = document.createElement('iframe');
 
+    const player = this.player();
     const queryParams = attrsToQuery(this.attributes);
+    const template = getTemplate(player, queryParams);
 
-    iframe.setAttribute(
-      'src',
-      `${BASE_URL}/${this.player()}/embed.html?${queryParams}`
-    );
-    iframe.setAttribute('allowfullscreen', '');
-
-    const style = document.createElement('style');
-
-    style.textContent = styles;
-
-    shadow.appendChild(style);
-    shadow.appendChild(wrapper);
-    wrapper.setAttribute('class', 'wrapper');
-    wrapper.appendChild(iframe);
+    shadow.appendChild(template.content.cloneNode(true));
   }
 
   player() {
@@ -51,4 +54,7 @@ class MuxPlayer extends HTMLElement {
   }
 }
 
-customElements.define('video-player', MuxPlayer);
+if (!window.customElements.get('video-player')) {
+  window.customElements.define('video-player', MuxPlayer);
+  window.VideoPlayer = MuxPlayer;
+}
