@@ -3,6 +3,6 @@
     "sass": "^1.22.10"
   },
   "devDependencies": {
-    "cssnano": "^4.1.10"
+    "cssnano": "^5.0.0"
   }
 }
